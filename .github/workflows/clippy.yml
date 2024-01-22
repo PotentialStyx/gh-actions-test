@@ -1,17 +1,17 @@
 {
     "on": { "push": { "branches": ["main"] }, "pull_request": {} },
-    "name": "Check",
+    "name": "Clippy",
     "permissions": { "security-events": "write" },
     "jobs":
         {
-            "Stuff":
+            "enforce-clippy":
                 {
                     "runs-on": "ubuntu-latest",
                     "steps":
                         [
                             {
-                                "uses": "actions/checkout@v4",
                                 "name": "Checkout",
+                                "uses": "actions/checkout@v4",
                             },
                             {
                                 "name": "Install Rust",
@@ -23,8 +23,8 @@
                                     },
                             },
                             {
-                                "uses": "Swatinem/rust-cache@v2",
                                 "name": "Cache",
+                                "uses": "Swatinem/rust-cache@v2",
                             },
                             {
                                 "name": "Install tools",
