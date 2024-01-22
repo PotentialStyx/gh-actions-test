@@ -10,25 +10,30 @@
                     "steps":
                         [
                             {
-                                "uses": "actions/checkout@v2",
+                                "uses": "actions/checkout@v4",
                                 "name": "Checkout",
                             },
                             {
                                 "name": "Install Rust",
-                                "uses": "actions-rs/toolchain@v1",
+                                "uses": "dtolnay/rust-toolchain@master",
                                 "with":
                                     {
-                                        "profile": "minimal",
-                                        "toolchain": "stable",
                                         "components": "clippy,rustfmt",
-                                        "override": true,
+                                        "toolchain": "nightly-2023-01-01",
                                     },
                             },
-                            { "uses": "Swatinem/rust-cache@v1" },
-                            { "run": "cargo install clippy-sarif sarif-fmt" },
                             {
+                                "uses": "Swatinem/rust-cache@v2",
+                                "name": "Cache",
+                            },
+                            {
+                                "name": "Install tools",
+                                "run": "cargo install clippy-sarif sarif-fmt",
+                            },
+                            {
+                                "name": "Generate SARIF",
                                 "run":
-                                    "cargo clippy --all-targets --all-features --message-format=json |
+                                    "cargo clippy --all-features --message-format=json |
                                     clippy-sarif | tee results.sarif | sarif-fmt",
                             },
                             {
