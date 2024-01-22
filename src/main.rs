@@ -6,5 +6,6 @@ fn main() {
     if e == "" {
         println!("fun")
     }
+    let a = 0;
     println!("Hello, world!");
 }
