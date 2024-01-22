@@ -1,34 +1,39 @@
 {
     "on": { "push": { "branches": ["main"] }, "pull_request": {} },
-    "name": "Check",
+    "name": "Clippy",
     "permissions": { "security-events": "write" },
     "jobs":
         {
-            "Stuff":
+            "enforce-clippy":
                 {
                     "runs-on": "ubuntu-latest",
                     "steps":
                         [
                             {
-                                "uses": "actions/checkout@v2",
                                 "name": "Checkout",
+                                "uses": "actions/checkout@v4",
                             },
                             {
                                 "name": "Install Rust",
-                                "uses": "actions-rs/toolchain@v1",
+                                "uses": "dtolnay/rust-toolchain@master",
                                 "with":
                                     {
-                                        "profile": "minimal",
-                                        "toolchain": "stable",
-                                        "components": "clippy,rustfmt",
-                                        "override": true,
+                                        "components": "clippy",
+                                        "toolchain": "nightly-2024-01-01",
                                     },
                             },
-                            { "uses": "Swatinem/rust-cache@v1" },
-                            { "run": "cargo install clippy-sarif sarif-fmt" },
                             {
+                                "name": "Cache",
+                                "uses": "Swatinem/rust-cache@v2",
+                            },
+                            {
+                                "name": "Install tools",
+                                "run": "cargo install clippy-sarif sarif-fmt",
+                            },
+                            {
+                                "name": "Generate SARIF",
                                 "run":
-                                    "cargo clippy --all-targets --all-features --message-format=json |
+                                    "cargo clippy --all-features --message-format=json |
                                     clippy-sarif | tee results.sarif | sarif-fmt",
                             },
                             {
