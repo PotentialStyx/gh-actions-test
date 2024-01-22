@@ -7,5 +7,6 @@ fn main() {
         println!("fun")
     }
     let a = 0;
+    let _ = 'a'..'z';
     println!("Hello, world!");
 }
