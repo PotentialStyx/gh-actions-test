@@ -18,8 +18,8 @@
                                 "uses": "dtolnay/rust-toolchain@master",
                                 "with":
                                     {
-                                        "components": "clippy,rustfmt",
-                                        "toolchain": "nightly-2023-01-01",
+                                        "components": "clippy",
+                                        "toolchain": "nightly-2024-01-01",
                                     },
                             },
                             {
