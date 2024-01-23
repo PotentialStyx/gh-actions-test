@@ -1,0 +1,33 @@
+{
+    "on": { "workflow_call": {} },
+    "name": "Install",
+    "permissions": { "security-events": "write" },
+    "jobs":
+        {
+            "install":
+                {
+                    "name": "Install",
+                    "runs-on": "ubuntu-latest",
+                    "steps":
+                        [
+                            {
+                                "name": "Install Rust",
+                                "uses": "dtolnay/rust-toolchain@master",
+                                "with":
+                                    {
+                                        "components": "clippy",
+                                        "toolchain": "nightly-2024-01-01",
+                                    },
+                            },
+                            {
+                                "name": "Cache",
+                                "uses": "Swatinem/rust-cache@v2",
+                            },
+                            {
+                                "name": "Install tools",
+                                "run": "cargo install clippy-sarif sarif-fmt",
+                            },
+                        ],
+                },
+        },
+}
